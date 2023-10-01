@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    restart: always
+
+  be:
+    build: ../be
+    ports:
+      - 8080:8080
+    environment:
+      - PORT=8080
+      - HOST=0.0.0.0
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_USERNAME=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - ROUNDS=10
+      - SECRET_KEY=secret-discret
+      - EXPIRES_IN=86400
+    depends_on:
+      - mysql
+    restart: on-failure
+
+  fe:
+    build: ../fe
+    ports:
+      - 80:80
+    depends_on:
+      - be
+    restart: on-failure

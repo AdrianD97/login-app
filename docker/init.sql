@@ -1,0 +1,13 @@
+CREATE TABLE users(
+   id INTEGER NOT NULL AUTO_INCREMENT,
+   username VARCHAR(50) NOT NULL,
+   email VARCHAR(255) NOT NULL,
+   password VARCHAR(255) NOT NULL,
+   first_name VARCHAR(30) NOT NULL,
+   last_name VARCHAR(30) NOT NULL,
+   latitude DECIMAL(16,14) NOT NULL DEFAULT 0.0,
+   longitude DECIMAL(16,14) NOT NULL DEFAULT 0.0,
+   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+   PRIMARY KEY (id),
+   UNIQUE INDEX (username)
+);
