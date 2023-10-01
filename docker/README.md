@@ -15,7 +15,7 @@ MYSQL_DATABASE="" # database name
 docker compose up -d
 ```
 
-- open http://localhost to acess the app
+- wait until all containers are running and then open http://localhost to acess the app
 
 
 ## Application print screens
